@@ -1,18 +1,15 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
-mode: 'development',
-entry: './src/main.tsx',
-devtool: 'inline-source-map',
-output: {
-path: path.join(__dirname, '/dist'),
-filename: 'bundle.js'
-},
-devtool: 'inline-source-map',
-devServer: {
-static: './dist',
-},
-module: {
+  mode: 'development',
+  entry: './src/main.tsx',
+  devtool: 'inline-source-map',
+  output: {
+  path: path.join(__dirname, '/dist'),
+  filename: 'bundle.js'
+  },
+  devtool: 'inline-source-map',
+  module: {
     rules: [
         {
           test: /\.?ts|tsx$/,
@@ -60,18 +57,19 @@ module: {
           },
         },
     ]
-},
-    resolve: {
-        extensions: ['.js', '.jsx', '.ts', '.tsx'],
-},
-plugins:[
-new HtmlWebpackPlugin({
-template: './index.html'
-})
-],
-devServer: {
+  },
+  resolve: {
+      extensions: ['.js', '.jsx', '.ts', '.tsx'],
+  },
+  plugins:[
+    new HtmlWebpackPlugin({
+      template: './index.html'
+    })
+  ],
+  devServer: {
     port: '8080',
     historyApiFallback: true,
+    static: './dist',
   },
 
 }

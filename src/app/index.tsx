@@ -1,12 +1,14 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import '../styles.scss';
-import Authentication from './Components/Authentication'
+import { Authentication } from './Components/Authentication'
 function App() {
-  return 
+  return (
     <Routes>
       <Route path="/auth" element={<Authentication />} />
-    </Routes> 
+    </Routes> )
+
 }
+
 
 export default App;
