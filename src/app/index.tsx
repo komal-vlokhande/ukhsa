@@ -2,7 +2,7 @@ import React, {createContext, useState} from "react";
 import { Route, Routes } from "react-router-dom"; 
 import { Template, Header, Footer, DateInput ,Select } from 'govuk-react-jsx';
 import '../styles.scss';
-import { Authentication } from './Components/Authentication'
+import  Authentication  from './Components/Authentication'
 
 export const ThemeContext = createContext(null);
 
