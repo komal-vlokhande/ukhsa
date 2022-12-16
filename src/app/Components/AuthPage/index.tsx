@@ -1,13 +1,5 @@
 import React, { useState } from "react";
 import { Button, Fieldset, ErrorSummary, DateInput } from "govuk-react-jsx";
-
-//validate date of birth
-//POST http://localhost:3000/authenticate
-// Content-Type: application/json
-// {
-//     "urlToken": "77cef30cec6b5d62c4b5ac81daae161d4dbd2571fa0200d0d5bbb780201de00e",
-//     "dob": "01012000"
-// }
 const dobObjToString = ({
   year,
   month,
@@ -20,12 +12,6 @@ const dobObjToString = ({
   `${day ? day.padStart(2, "0") : ""}${
     month ? month.padStart(2, "0") : ""
   }${year || ""}`;
-//empty date of birth : error message  'Please enter your date of birth to proceed'
-//Please enter your date of birth
-//for invalid submission (just subnmission) error summary : the data you entered doesn't match our records.
-//hint error: please enter yourdate of bith
-//for valid submission that doesn't match with the correct date (in database format)[NEED THE REVERSE] please enter your correct date of birth and the data
-//if i submit an empty DOB, error message changes and error summary appears with same message 'Please enter your date of birth to proceed'
 const backendResponse = [
   //CORRECT SCENARIO
   { failureCode: null, timeOutExpiry: null },
@@ -36,11 +22,12 @@ const backendResponse = [
 ];
 export const AuthPage: React.FC = () => {
   const [dob, setDob] = useState({ day: "", month: "", year: "" });
-  const [isCorrect, setIsCorrect] = useState(false);
-  const [isValid, setIsValid] = useState(true);
-  const [isEmpty, setIsEmpty] = useState(false);
+  const [isCorrect, setIsCorrect] = useState("");
+  const [isValid, setIsValid] = useState("");
+  const [isEmpty, setIsEmpty] = useState("");
   const [submissionAttempts, setSubmissionAttempts] = useState(0);
   const [validationAttempts, setValidationAttempts] = useState(0);
+  console.log(isValid, isEmpty, isCorrect);
   const correctDate = "01012000";
   const handleDateFields = (e) => {
     const { name, value } = e.target;
@@ -117,64 +104,68 @@ export const AuthPage: React.FC = () => {
 
   return (
     <>
-      <div>
+      {/* <div>
         date is: {dob.day}/{dob.month}/{dob.year}.{" "}
         {isValid === true ? "validation is true" : "validation failed"}. {""}
         submission attempts so far: {submissionAttempts}.{""}
         <br />
         valid submissions attempts so far: {validationAttempts}
-      </div>
-      {/* {!isValid && (
-        <ErrorSummary
-          errorList={getErrorList(validationAttempts)}
-          titleChildren="There is a problem"
-        />
-      )} */}
-      {/* if field is empty on click error summary appears with please enter dob to proceed */}
-      {isEmpty && (
-        <ErrorSummary
-          errorList={[
-            {
-              children: "Please enter your date of birth to proceed",
-              href: "#example-error-1",
-            },
-          ]}
-          titleChildren="There is a problem"
-        />
-      )}
-      {!isValid && !isEmpty && (
-        <ErrorSummary
-          errorList={[
-            {
-              children: "Please input your date of birth in the correct format",
-              href: "#example-error-1",
-            },
-          ]}
-          titleChildren="There is a problem"
-        />
-      )}
+      </div> */}
+
+      <ErrorSummary
+        errorList={
+          (isCorrect !== "" &&
+            !isCorrect &&
+            isValid &&
+            !isEmpty && [
+              {
+                children: "Please enter your correct date of birth",
+                href: "#example-error-1",
+              },
+            ]) ||
+          (isEmpty !== "" &&
+            isEmpty && [
+              {
+                children: "Please enter your date of birth to proceed",
+                href: "#example-error-1",
+              },
+            ]) ||
+          (isValid !== "" &&
+            !isValid &&
+            !isEmpty && [
+              {
+                children:
+                  "Please input your date of birth in the correct format",
+                href: "#example-error-1",
+              },
+            ])
+        }
+        titleChildren="There is a problem"
+      />
+
       <form noValidate onSubmit={handleSubmit}>
         <DateInput
           onChange={(e) => {
             handleDateFields(e);
           }}
           errorMessage={
-            (isEmpty && {
-              children: "Please enter your date of birth to proceed",
-            }) ||
-            (!isValid &&
+            (isEmpty !== "" &&
+              isEmpty && {
+                children: "Please enter your date of birth to proceed",
+              }) ||
+            (isValid !== "" &&
+              !isValid &&
               !isEmpty && {
                 children:
                   "Please input your date of birth in the correct format",
               }) ||
-            (isValid &&
-              isEmpty && {
+            (isCorrect !== "" &&
+              !isCorrect &&
+              isValid &&
+              !isEmpty && {
                 children: "Please enter your correct date of birth",
               })
           }
-          // errorMessage={
-          //   !!isValid && validationAttempts < 3 ? null : errorMessage
-          // }
           fieldset={{
             legend: {
               children: "What is your date of birth?",
@@ -183,9 +174,9 @@ export const AuthPage: React.FC = () => {
           hint={{
             children: "For example, 31 3 1980",
           }}
-          id={!!isValid && validationAttempts < 3 ? "dob" : "dob-error"}
+          id={!isValid && validationAttempts < 3 ? "dob" : "dob-error"}
           items={
-            !!isValid && validationAttempts < 3
+            !isValid && validationAttempts < 3
               ? [
                   {
                     className: "govuk-input--width-2",
