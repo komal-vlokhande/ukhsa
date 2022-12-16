@@ -26,12 +26,22 @@ const dobObjToString = ({
 //hint error: please enter yourdate of bith
 //for valid submission that doesn't match with the correct date (in database format)[NEED THE REVERSE] please enter your correct date of birth and the data
 //if i submit an empty DOB, error message changes and error summary appears with same message 'Please enter your date of birth to proceed'
+const backendResponse = [
+  //CORRECT SCENARIO
+  { failureCode: null, timeOutExpiry: null },
+  //LOCKED OUT  ON 3 ATTEMPT
+  { failureCode: "TIMEOUT", timeOutExpiry: "2022-12-12T15:35:08.162Z" },
+  //UP TO THREE
+  { failureCode: "INCORRECT", timeOutExpiry: null },
+];
 export const AuthPage: React.FC = () => {
   const [dob, setDob] = useState({ day: "", month: "", year: "" });
+  const [isCorrect, setIsCorrect] = useState(false);
   const [isValid, setIsValid] = useState(true);
   const [isEmpty, setIsEmpty] = useState(false);
   const [submissionAttempts, setSubmissionAttempts] = useState(0);
   const [validationAttempts, setValidationAttempts] = useState(0);
+  const correctDate = "01012000";
   const handleDateFields = (e) => {
     const { name, value } = e.target;
     setDob({ ...dob, [name]: value });
@@ -65,6 +75,17 @@ export const AuthPage: React.FC = () => {
     console.log("there is an error");
     return "error";
   };
+  const checkIfCorrect = () => {
+    console.log(dobObjToString(dob));
+    console.log(correctDate);
+    if (dobObjToString(dob) === correctDate) {
+      console.log("its a match!");
+      setIsCorrect(true);
+    } else {
+      console.log("its not a match!");
+      setIsCorrect(false);
+    }
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
     setDob(dob);
@@ -88,9 +109,10 @@ export const AuthPage: React.FC = () => {
     }
     console.log({ isValid });
     console.log({ validationresult });
-    console.log(dob);
-    console.log(isEmpty);
+    console.log({ dob });
+    console.log({ isEmpty });
     console.log(dobObjToString(dob));
+    checkIfCorrect();
   };
 
   return (
@@ -144,6 +166,10 @@ export const AuthPage: React.FC = () => {
               !isEmpty && {
                 children:
                   "Please input your date of birth in the correct format",
+              }) ||
+            (isValid &&
+              isEmpty && {
+                children: "Please enter your correct date of birth",
               })
           }
           // errorMessage={
