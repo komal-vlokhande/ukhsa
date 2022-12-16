@@ -1,4 +1,10 @@
 body {
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  overflow-y: auto;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
@@ -12,41 +18,32 @@ code {
     monospace;
 }
 
-.new-config {
-  display: flex;
-  flex-direction: column;
-  max-width: 960px;
-  margin: 0 auto;
-  width: 100%;
-  padding: 20px 30px 200px;
-
-  .choice-wrapper {
-    margin-top: 70px;
-  }
-
-  .govuk-fieldset__heading {
-    font-size: 1.5rem;
-    font-weight: 700;
-  }
-
-  .govuk-heading-xl__lowmargin {
-    margin-bottom: 15px;
-  }
-
-  .back-link {
-    margin-bottom: 40px;
-  }
-
-  .table__cell__noborder {
-    border-bottom: none;
-  }
-  .form-grid {
-    margin-top: 30px;
-  }
+Header {
+  top: 0;
+    width: 100%;
+    position: fixed;
 }
 
-@media only screen and (min-height: 800px) {
-  .new-config {
-    padding-bottom: 200px;
-  }
+.content {
+  padding: 5px;
+  margin-top: 60px;
+  width: 100%;
+  overflow-y: auto;
+}
+
+html {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+Footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
 }
