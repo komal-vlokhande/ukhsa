@@ -3,7 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import { Template, Header, Footer, DateInput, Select } from "govuk-react-jsx";
 import "../styles.scss";
 import { Authentication } from "./Components/Authentication";
-import AuthPage from "./Components/AuthPage";
+import { AuthPage } from "./Components/AuthPage";
 
 export const ThemeContext = createContext(null);
 
