@@ -27,7 +27,7 @@ export const AuthPage: React.FC = () => {
   const [isEmpty, setIsEmpty] = useState("");
   const [submissionAttempts, setSubmissionAttempts] = useState(0);
   const [validationAttempts, setValidationAttempts] = useState(0);
-  console.log(isValid, isEmpty, isCorrect);
+
   const correctDate = "01012000";
   const handleDateFields = (e) => {
     const { name, value } = e.target;
@@ -50,26 +50,16 @@ export const AuthPage: React.FC = () => {
         testDate.getMonth() === month &&
         testDate.getDate() === day
       ) {
-        console.log("date is valid");
-        // return undefined;
-        console.log(value);
         return undefined;
       }
     }
-    console.log(value);
-    // console.log(typeof dob);
-    // console.log(value.length);
-    console.log("there is an error");
+
     return "error";
   };
   const checkIfCorrect = () => {
-    console.log(dobObjToString(dob));
-    console.log(correctDate);
     if (dobObjToString(dob) === correctDate) {
-      console.log("its a match!");
       setIsCorrect(true);
     } else {
-      console.log("its not a match!");
       setIsCorrect(false);
     }
   };
@@ -94,11 +84,6 @@ export const AuthPage: React.FC = () => {
     } else {
       setIsEmpty(false);
     }
-    console.log({ isValid });
-    console.log({ validationresult });
-    console.log({ dob });
-    console.log({ isEmpty });
-    console.log(dobObjToString(dob));
     checkIfCorrect();
   };
 
@@ -144,6 +129,12 @@ export const AuthPage: React.FC = () => {
       />
 
       <form noValidate onSubmit={handleSubmit}>
+        <Fieldset
+          legend={{
+            children: "What is your date of birth?",
+            className: "govuk-fieldset__legend--l",
+          }}
+        />
         <DateInput
           onChange={(e) => {
             handleDateFields(e);
@@ -166,13 +157,8 @@ export const AuthPage: React.FC = () => {
                 children: "Please enter your correct date of birth",
               })
           }
-          fieldset={{
-            legend: {
-              children: "What is your date of birth?",
-            },
-          }}
           hint={{
-            children: "For example, 31 3 1980",
+            children: "For example, 31 11 1980",
           }}
           id={!isValid && validationAttempts < 3 ? "dob" : "dob-error"}
           items={
