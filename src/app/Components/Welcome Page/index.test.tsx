@@ -1,8 +1,8 @@
 import React from "react";
-
 import { render, screen } from "@testing-library/react";
 
 import { WelcomePage } from ".";
+
 describe("WelcomePage", () => {
   it("displays the heading with the correct text", () => {
     const { getByText } = render(<WelcomePage />);
