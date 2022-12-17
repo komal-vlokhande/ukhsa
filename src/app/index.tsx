@@ -23,37 +23,38 @@ function App() {
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
       <div className="App" id={theme}>
-        <Header
+        {/* <Header
           menuButtonLabel="Theme"
           containerClassName="govuk-header__container--full-width"
           navigationClassName="govuk-header__navigation--end"
-        />
-        <div className="switch">
-          <Select
-            id="select-1"
-            items={[
-              {
-                children: "Light Theme",
-                value: "--theme-light",
-              },
-              {
-                children: "Dark Theme",
-                value: "--theme-dark",
-              },
-            ]}
-            name="select-1"
-            value={theme}
-            onChange={toggleTheme}
-          />
-        </div>
-        <div className="content">
-          <Routes>
-            <Route path="/auth" element={<Authentication />} />
-            <Route path="/authpage" element={<AuthPage />} />
-            <Route path="*" element={<NoMatch />} />
-          </Routes>
-        </div>
-        <Footer />
+        /> */}
+        <Template>
+          <div className="switch">
+            <Select
+              id="select-1"
+              items={[
+                {
+                  children: "Light Theme",
+                  value: "--theme-light",
+                },
+                {
+                  children: "Dark Theme",
+                  value: "--theme-dark",
+                },
+              ]}
+              name="select-1"
+              value={theme}
+              onChange={toggleTheme}
+            />
+          </div>
+          <div className="content">
+            <Routes>
+              <Route path="/auth" element={<Authentication />} />
+              <Route path="/authpage" element={<AuthPage />} />
+              <Route path="*" element={<NoMatch />} />
+            </Routes>
+          </div>
+        </Template>
       </div>
     </ThemeContext.Provider>
   );

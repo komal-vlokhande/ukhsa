@@ -1,200 +1,116 @@
 import React, { useState } from "react";
 import { Button, Fieldset, ErrorSummary, DateInput } from "govuk-react-jsx";
-const dobObjToString = ({
-  year,
-  month,
-  day,
-}: {
-  year?: string;
-  month?: string;
-  day?: string;
-}) =>
-  `${day ? day.padStart(2, "0") : ""}${
-    month ? month.padStart(2, "0") : ""
-  }${year || ""}`;
-const backendResponse = [
-  //CORRECT SCENARIO
-  { failureCode: null, timeOutExpiry: null },
-  //LOCKED OUT  ON 3 ATTEMPT
-  { failureCode: "TIMEOUT", timeOutExpiry: "2022-12-12T15:35:08.162Z" },
-  //UP TO THREE
-  { failureCode: "INCORRECT", timeOutExpiry: null },
-];
+import { validateDateOfBirth, dobObjToString } from "./helperfunctions";
+
 export const AuthPage: React.FC = () => {
   const [dob, setDob] = useState({ day: "", month: "", year: "" });
-  const [isCorrect, setIsCorrect] = useState("");
-  const [isValid, setIsValid] = useState("");
-  const [isEmpty, setIsEmpty] = useState("");
-  const [submissionAttempts, setSubmissionAttempts] = useState(0);
-  const [validationAttempts, setValidationAttempts] = useState(0);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [backendResult, setBackendResult] = useState(false);
 
-  const correctDate = "01012000";
-  const handleDateFields = (e) => {
+  const handleDateFields = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setDob({ ...dob, [name]: value });
     console.log(dob);
   };
-  const validateDateOfBirth = (value) => {
-    if (value && value.year && value.month && value.day) {
-      const year = Number(value.year);
-      const month = Number(value.month) - 1;
-      const day = Number(value.day);
-      const testDate = new Date(year, month, day);
-      if (
-        // Check date is in the past
-        testDate < new Date() &&
-        // Is after 1900
-        testDate.getFullYear() > 1900 &&
-        // and a real date resolves to the inputted date (e.g. month is not 13, not 29th February on a non leap year)
-        testDate.getFullYear() === year &&
-        testDate.getMonth() === month &&
-        testDate.getDate() === day
-      ) {
-        return undefined;
+  const renderErrorSummary = () => {
+    const errorList = [];
+    if (errorMessage) {
+      if (backendResult === "incorrect") {
+        errorList.push({
+          children: "The data you entered doesn't match our records",
+          href: "#",
+        });
+      } else if (backendResult === "timeout") {
+        errorList.push({
+          children: "You have reached the maximum amount of attempts",
+          href: "#",
+        });
+        errorList.push({
+          children: "Please try again in 15 minutes",
+          href: "#",
+        });
+      } else {
+        errorList.push({
+          children: errorMessage,
+          href: "#",
+        });
       }
+    }
+    if (errorList.length === 0) {
+      return null;
+    }
+    return (
+      <ErrorSummary errorList={errorList} titleChildren="There is a problem" />
+    );
+  };
+  const sendToBackend = (validatedDate: string): string => {
+    //simulating backend messages
+    return;
+  };
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const isEmpty = Object.values(dob).every((val) => val === "");
+    if (!dob.day || !dob.month || !dob.year) {
+      console.log("empty field");
+      setErrorMessage("Empty field, please input a date");
+      return;
     }
 
-    return "error";
-  };
-  const checkIfCorrect = () => {
-    if (dobObjToString(dob) === correctDate) {
-      setIsCorrect(true);
-    } else {
-      setIsCorrect(false);
+    const validatedDate = validateDateOfBirth(dob);
+    if (!validatedDate) {
+      setErrorMessage("Please enter a date in the correct format");
+      return;
     }
-  };
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setDob(dob);
-    const validationresult = validateDateOfBirth(dob);
-    const isEmpty = Object.values(dob).every((val) => val === "");
-    if (validationresult === undefined) {
-      if (isValid) {
-        setValidationAttempts(validationAttempts + 1);
-      } else {
-        setIsValid(true);
-        setValidationAttempts(validationAttempts + 1);
-      }
+    setErrorMessage("");
+    const result = sendToBackend(validatedDate);
+    setBackendResult(result);
+    if (result === "timeout") {
+      setErrorMessage("Maximum attempts reached");
+    } else if (result === "incorrect") {
+      setErrorMessage("Please enter correct date of birth");
     } else {
-      setIsValid(false);
+      setErrorMessage("");
     }
-    setSubmissionAttempts(submissionAttempts + 1);
-    if (isEmpty) {
-      setIsEmpty(true);
-    } else {
-      setIsEmpty(false);
-    }
-    checkIfCorrect();
   };
 
   return (
-    <>
-      {/* <div>
-        date is: {dob.day}/{dob.month}/{dob.year}.{" "}
-        {isValid === true ? "validation is true" : "validation failed"}. {""}
-        submission attempts so far: {submissionAttempts}.{""}
-        <br />
-        valid submissions attempts so far: {validationAttempts}
-      </div> */}
-
-      <ErrorSummary
-        errorList={
-          (isCorrect !== "" &&
-            !isCorrect &&
-            isValid &&
-            !isEmpty && [
-              {
-                children: "Please enter your correct date of birth",
-                href: "#example-error-1",
-              },
-            ]) ||
-          (isEmpty !== "" &&
-            isEmpty && [
-              {
-                children: "Please enter your date of birth to proceed",
-                href: "#example-error-1",
-              },
-            ]) ||
-          (isValid !== "" &&
-            !isValid &&
-            !isEmpty && [
-              {
-                children:
-                  "Please input your date of birth in the correct format",
-                href: "#example-error-1",
-              },
-            ])
-        }
-        titleChildren="There is a problem"
+    <form noValidate onSubmit={handleSubmit}>
+      {errorMessage ? renderErrorSummary() : null}
+      <Fieldset
+        legend={{
+          children: "What is your date of birth?",
+          className: "govuk-fieldset__legend--l",
+        }}
       />
-
-      <form noValidate onSubmit={handleSubmit}>
-        <Fieldset
-          legend={{
-            children: "What is your date of birth?",
-            className: "govuk-fieldset__legend--l",
-          }}
-        />
-        <DateInput
-          onChange={(e) => {
-            handleDateFields(e);
-          }}
-          errorMessage={
-            (isEmpty !== "" &&
-              isEmpty && {
-                children: "Please enter your date of birth to proceed",
-              }) ||
-            (isValid !== "" &&
-              !isValid &&
-              !isEmpty && {
-                children:
-                  "Please input your date of birth in the correct format",
-              }) ||
-            (isCorrect !== "" &&
-              !isCorrect &&
-              isValid &&
-              !isEmpty && {
-                children: "Please enter your correct date of birth",
-              })
-          }
-          hint={{
-            children: "For example, 31 11 1980",
-          }}
-          id={!isValid && validationAttempts < 3 ? "dob" : "dob-error"}
-          items={
-            !isValid && validationAttempts < 3
-              ? [
-                  {
-                    className: "govuk-input--width-2",
-                    name: "day",
-                  },
-                  {
-                    className: "govuk-input--width-2",
-                    name: "month",
-                  },
-                  {
-                    className: "govuk-input--width-4",
-                    name: "year",
-                  },
-                ]
-              : [
-                  {
-                    className: "govuk-input--width-2 govuk-input--error",
-                    name: "day",
-                  },
-                  {
-                    className: "govuk-input--width-2 govuk-input--error",
-                    name: "month",
-                  },
-                  {
-                    className: "govuk-input--width-4 govuk-input--error",
-                    name: "year",
-                  },
-                ]
-          }
-        />
-        <Button>Continue</Button>
-      </form>
-    </>
+      <DateInput
+        onChange={handleDateFields}
+        errorMessage={errorMessage ? { children: errorMessage } : null}
+        hint={{
+          children: "For example, 31 11 1980",
+        }}
+        id={errorMessage ? "dob-error" : "dob"}
+        items={[
+          {
+            className: errorMessage
+              ? "govuk-input--width-2 govuk-input--error"
+              : "govuk-input-width-2",
+            name: "day",
+          },
+          {
+            className: errorMessage
+              ? "govuk-input--width-2 govuk-input--error"
+              : "govuk-input-width-2",
+            name: "month",
+          },
+          {
+            className: errorMessage
+              ? "govuk-input--width-4 govuk-input--error"
+              : "govuk-input-width-4",
+            name: "year",
+          },
+        ]}
+      />
+      <Button>Continue</Button>
+    </form>
   );
 };

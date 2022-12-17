@@ -28,7 +28,7 @@ Header {
   padding: 5px;
   margin-top: 60px;
   width: 100%;
-  overflow-y: auto;
+  // overflow-y: auto;
 }
 
 html {
@@ -41,9 +41,9 @@ html {
   flex-direction: column;
 }
 
-Footer {
-  position: fixed;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-}
+// Footer {
+//   position: fixed;
+//   left: 0;
+//   bottom: 0;
+//   width: 100%;
+// }
