@@ -1,10 +1,4 @@
 body {
-  height: 100%;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  overflow-y: auto;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
@@ -16,34 +10,4 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
-}
-
-Header {
-  top: 0;
-    width: 100%;
-    position: fixed;
-}
-
-.content {
-  padding: 5px;
-  margin-top: 60px;
-  width: 100%;
-  overflow-y: auto;
-}
-
-html {
-  width: 100%;
-  height: 100%;
-  overflow-y: auto;
-  height: 100%;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-}
-
-Footer {
-  position: fixed;
-  left: 0;
-  bottom: 0;
-  width: 100%;
 }
