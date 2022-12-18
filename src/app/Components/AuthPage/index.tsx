@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button, Fieldset, ErrorSummary, DateInput } from "govuk-react-jsx";
-import { validateDateOfBirth, dobObjToString } from "./helperfunctions";
+import { validateDateOfBirth } from "./helperfunctions";
 
 export const AuthPage: React.FC = () => {
   const [dob, setDob] = useState({ day: "", month: "", year: "" });
