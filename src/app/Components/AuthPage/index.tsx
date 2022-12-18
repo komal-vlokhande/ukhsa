@@ -82,6 +82,7 @@ export const AuthPage: React.FC = () => {
           className: "govuk-fieldset__legend--l",
         }}
       />
+      <div>Hello</div>
       <DateInput
         onChange={handleDateFields}
         errorMessage={errorMessage ? { children: errorMessage } : null}
