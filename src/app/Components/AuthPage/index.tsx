@@ -1,26 +1,30 @@
-import React, { useState } from "react";
+import React from "react";
 import { Button, Fieldset, ErrorSummary, DateInput } from "govuk-react-jsx";
 import { validateDateOfBirth } from "./helperfunctions";
 
-export const AuthPage: React.FC = () => {
-  const [dob, setDob] = useState({ day: "", month: "", year: "" });
-  const [errorMessage, setErrorMessage] = useState("");
-  const [backendResult, setBackendResult] = useState(false);
+export class AuthPage extends React.Component<{}, any> {
+  constructor(props: any) {
+    super(props);
+    this.state = {
+      dob: { day: "", month: "", year: "" },
+      errorMessage: "",
+      backendResult: false,
+    };
+  }
 
-  const handleDateFields = (e: React.ChangeEvent<HTMLInputElement>) => {
+  handleDateFields = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setDob({ ...dob, [name]: value });
-    console.log(dob);
+    this.setState({ dob: { ...this.state.dob, [name]: value } });
   };
-  const renderErrorSummary = () => {
+  renderErrorSummary = () => {
     const errorList = [];
-    if (errorMessage) {
-      if (backendResult === "incorrect") {
+    if (this.state.errorMessage) {
+      if (this.state.backendResult === "incorrect") {
         errorList.push({
           children: "The data you entered doesn't match our records",
           href: "#",
         });
-      } else if (backendResult === "timeout") {
+      } else if (this.state.backendResult === "timeout") {
         errorList.push({
           children: "You have reached the maximum amount of attempts",
           href: "#",
@@ -31,7 +35,7 @@ export const AuthPage: React.FC = () => {
         });
       } else {
         errorList.push({
-          children: errorMessage,
+          children: this.state.errorMessage,
           href: "#",
         });
       }
@@ -43,75 +47,82 @@ export const AuthPage: React.FC = () => {
       <ErrorSummary errorList={errorList} titleChildren="There is a problem" />
     );
   };
-  const sendToBackend = (validatedDate: string): string => {
+  sendToBackend = (validatedDate: string): string => {
     //simulating backend messages
     return;
   };
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const isEmpty = Object.values(dob).every((val) => val === "");
+    const { dob } = this.state;
     if (!dob.day || !dob.month || !dob.year) {
       console.log("empty field");
-      setErrorMessage("Empty field, please input a date");
+      this.setState({ errorMessage: "Empty field, please input a date" });
       return;
     }
 
     const validatedDate = validateDateOfBirth(dob);
     if (!validatedDate) {
-      setErrorMessage("Please enter a date in the correct format");
+      this.setState({
+        errorMessage: "Please enter a date in the correct format",
+      });
       return;
     }
-    setErrorMessage("");
-    const result = sendToBackend(validatedDate);
-    setBackendResult(result);
+    this.setState({ errorMessage: "" });
+    const result = this.sendToBackend(validatedDate);
+    this.setState({ backendResult: result });
     if (result === "timeout") {
-      setErrorMessage("Maximum attempts reached");
+      this.setState({ errorMessage: "Maximum attempts reached" });
     } else if (result === "incorrect") {
-      setErrorMessage("Please enter correct date of birth");
+      this.setState({ errorMessage: "Please enter correct date of birth" });
     } else {
-      setErrorMessage("");
+      this.setState({ errorMessage: "" });
     }
   };
-
-  return (
-    <form noValidate onSubmit={handleSubmit}>
-      {errorMessage ? renderErrorSummary() : null}
-      <Fieldset
-        legend={{
-          children: "What is your date of birth?",
-          className: "govuk-fieldset__legend--l",
-        }}
-      />
-      <div>Hello</div>
-      <DateInput
-        onChange={handleDateFields}
-        errorMessage={errorMessage ? { children: errorMessage } : null}
-        hint={{
-          children: "For example, 31 11 1980",
-        }}
-        id={errorMessage ? "dob-error" : "dob"}
-        items={[
-          {
-            className: errorMessage
-              ? "govuk-input--width-2 govuk-input--error"
-              : "govuk-input-width-2",
-            name: "day",
-          },
-          {
-            className: errorMessage
-              ? "govuk-input--width-2 govuk-input--error"
-              : "govuk-input-width-2",
-            name: "month",
-          },
-          {
-            className: errorMessage
-              ? "govuk-input--width-4 govuk-input--error"
-              : "govuk-input-width-4",
-            name: "year",
-          },
-        ]}
-      />
-      <Button>Continue</Button>
-    </form>
-  );
-};
+  render() {
+    return (
+      <form noValidate onSubmit={this.handleSubmit}>
+        {this.state.errorMessage ? this.renderErrorSummary() : null}
+        <Fieldset
+          legend={{
+            children: "What is your date of birth?",
+            className: "govuk-fieldset__legend--l",
+          }}
+        />
+        <div>Hello</div>
+        <DateInput
+          onChange={this.handleDateFields}
+          errorMessage={
+            this.state.errorMessage
+              ? { children: this.state.errorMessage }
+              : null
+          }
+          hint={{
+            children: "For example, 31 11 1980",
+          }}
+          id={this.state.errorMessage ? "dob-error" : "dob"}
+          items={[
+            {
+              className: this.state.errorMessage
+                ? "govuk-input--width-2 govuk-input--error"
+                : "govuk-input-width-2",
+              name: "day",
+            },
+            {
+              className: this.state.errorMessage
+                ? "govuk-input--width-2 govuk-input--error"
+                : "govuk-input-width-2",
+              name: "month",
+            },
+            {
+              className: this.state.errorMessage
+                ? "govuk-input--width-4 govuk-input--error"
+                : "govuk-input-width-4",
+              name: "year",
+            },
+          ]}
+        />
+        <Button>Continue</Button>
+      </form>
+    );
+  }
+}
