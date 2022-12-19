@@ -26,7 +26,7 @@ export class AuthPage extends React.Component<{}, any> {
         });
       } else if (this.state.backendResult === "timeout") {
         errorList.push({
-          children: "You have reached the maximum amount of attempts",
+          children: "You have reached the maximum number of attempts",
           href: "#",
         });
         errorList.push({
@@ -49,20 +49,22 @@ export class AuthPage extends React.Component<{}, any> {
   };
   sendToBackend = (validatedDate: string): string => {
     //simulating backend messages
-    return;
+    return "";
   };
   handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const { dob } = this.state;
     if (!dob.day || !dob.month || !dob.year) {
-      this.setState({ errorMessage: "Empty field, please input a date" });
+      this.setState({
+        errorMessage: "Please enter your date of birth to proceed",
+      });
       return;
     }
 
     const validatedDate = validateDateOfBirth(dob);
     if (!validatedDate) {
       this.setState({
-        errorMessage: "Please enter a date in the correct format",
+        errorMessage: "Please input your date of birth in the correct format",
       });
       return;
     }
