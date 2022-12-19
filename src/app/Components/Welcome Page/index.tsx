@@ -1,6 +1,5 @@
 import * as React from "react";
-// // @ts-ignore
-// import { Button } from "govuk-react-jsx";
+import { Button } from "govuk-react-jsx";
 export class WelcomePage extends React.Component {
   render(): JSX.Element {
     return (
@@ -15,10 +14,10 @@ export class WelcomePage extends React.Component {
                 </p>
               </div>
             </div>
-            <button disabled>Start now </button>
-            {/* <Button isStartButton disabled>
-              Start now{" "}
-            </Button> */}
+
+            <Button isStartButton disabled>
+              Start now
+            </Button>
           </main>
         </div>
       </>

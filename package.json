@@ -41,6 +41,15 @@
       "react-app/jest"
     ]
   },
+  "jest":{
+    "moduleNameMapper": {
+      "\\.(ico|jpg|jpeg|png|gif|eot|otf|webp|svg)$": "<rootDir>/src/__mocks__/fileMock.js"
+    },
+    "transformIgnorePatterns": [
+      "node_modules/(?!(govuk-react-jsx))",
+      "\\.pnp\\.[^\\/]+$"
+    ]
+  },
   "browserslist": {
     "production": [
       ">0.2%",
