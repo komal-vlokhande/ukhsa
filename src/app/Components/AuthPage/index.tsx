@@ -55,7 +55,6 @@ export class AuthPage extends React.Component<{}, any> {
     e.preventDefault();
     const { dob } = this.state;
     if (!dob.day || !dob.month || !dob.year) {
-      console.log("empty field");
       this.setState({ errorMessage: "Empty field, please input a date" });
       return;
     }
