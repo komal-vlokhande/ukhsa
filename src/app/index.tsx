@@ -4,7 +4,7 @@ import { Route, Routes } from "react-router-dom";
 import { Template, Header, Footer, DateInput ,Select } from 'govuk-react-jsx';
 import '../styles.scss';
 import  Authentication  from './Components/Authentication'
-import  {AuthPage}  from "./Components/AuthPage";
+import { LandingPage } from './Components/LandingPage'
 
 export const ThemeContext = createContext(null);
 
@@ -49,8 +49,8 @@ function App() {
         </div>
         <div className="content">
           <Routes>
-            <Route path="/auth" element={<Authentication />} />
-            <Route path="/authpage" element={<AuthPage />} />
+            <Route path="/auth/:token" element={<Authentication />} />
+            <Route path="/welcome" element={<LandingPage />} />
             <Route path="*" element={<NoMatch />} />
           </Routes>
         </div>

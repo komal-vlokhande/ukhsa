@@ -15,11 +15,10 @@ export const authenticationFailed = (error: any) =>{
     }
 }
 
-export const getAuthenticationDetails = ( requestData: any ) => {
+export const getAuthenticationDetails = ( requestData: {} ) => {
     return (dispatch) => {
         // requestData = {
-        //     event: {"urlToken": "77cef30cec6b5d62c4b5ac81daae161d4dbd2571fa0200d0d5bbb780201de00e",
-        //     "dob": "01012000" }
+        //     event: requestData
         // }
         requestData = { "failureCode": null, "timeoutExpiry": null, redirectURL:'http://localhost:8080/welcome', authToken:'765478935hgjdsbchjds' }
         dispatch(authenticationSucess(requestData));
@@ -35,6 +34,7 @@ export const getAuthenticationDetails = ( requestData: any ) => {
         // .catch(error => {
         //     dispatch(authenticationFailed(error));
         // })
+        
     }
 }
 
