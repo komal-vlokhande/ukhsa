@@ -88,7 +88,6 @@ export class AuthPage extends React.Component<{}, any> {
             className: "govuk-fieldset__legend--l",
           }}
         />
-        <div>Hello</div>
         <DateInput
           onChange={this.handleDateFields}
           errorMessage={
