@@ -40,7 +40,7 @@ describe("AuthPage", () => {
       const yearField = getByRole("textbox", { name: /year/i });
       expect(dayField).toBeInTheDocument();
       expect(monthField).toBeInTheDocument();
-      expect(monthField).toBeInTheDocument();
+      expect(yearField).toBeInTheDocument();
     });
   });
 });

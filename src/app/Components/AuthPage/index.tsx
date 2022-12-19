@@ -57,7 +57,7 @@ export class AuthPage extends React.Component<{}, any> {
   };
   sendToBackend = (validatedDate: string): string => {
     //simulating backend messages
-    return "incorrect";
+    return "";
   };
   handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -114,19 +114,19 @@ export class AuthPage extends React.Component<{}, any> {
             {
               className: this.state.errorMessage
                 ? "govuk-input--width-2 govuk-input--error"
-                : "govuk-input-width-2",
+                : "govuk-input--width-2",
               name: "day",
             },
             {
               className: this.state.errorMessage
                 ? "govuk-input--width-2 govuk-input--error"
-                : "govuk-input-width-2",
+                : "govuk-input--width-2",
               name: "month",
             },
             {
               className: this.state.errorMessage
                 ? "govuk-input--width-4 govuk-input--error"
-                : "govuk-input-width-4",
+                : "govuk-input--width-4",
               name: "year",
             },
           ]}
