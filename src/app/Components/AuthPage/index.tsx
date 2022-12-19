@@ -11,7 +11,15 @@ export class AuthPage extends React.Component<{}, any> {
       backendResult: false,
     };
   }
-
+  errorMessageText = {
+    noMatchSummary: "The data you entered doesn't match our records",
+    noMatchHintText: "Please enter correct date of birth",
+    emptyField: "Please enter your date of birth to proceed",
+    wrongFormat: "Please input your date of birth in the correct format",
+    maxAttemptsHintText: "Maximum attempts reached",
+    maxAttemptsSummary: "You have reached the maximum number of attempts",
+    maxAttemptsTimeout: "Please try again in 15 minutes",
+  };
   handleDateFields = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     this.setState({ dob: { ...this.state.dob, [name]: value } });
@@ -21,16 +29,16 @@ export class AuthPage extends React.Component<{}, any> {
     if (this.state.errorMessage) {
       if (this.state.backendResult === "incorrect") {
         errorList.push({
-          children: "The data you entered doesn't match our records",
+          children: this.errorMessageText.noMatchSummary,
           href: "#",
         });
       } else if (this.state.backendResult === "timeout") {
         errorList.push({
-          children: "You have reached the maximum number of attempts",
+          children: this.errorMessageText.maxAttemptsSummary,
           href: "#",
         });
         errorList.push({
-          children: "Please try again in 15 minutes",
+          children: this.errorMessageText.maxAttemptsTimeout,
           href: "#",
         });
       } else {
@@ -49,14 +57,14 @@ export class AuthPage extends React.Component<{}, any> {
   };
   sendToBackend = (validatedDate: string): string => {
     //simulating backend messages
-    return "";
+    return "incorrect";
   };
   handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const { dob } = this.state;
     if (!dob.day || !dob.month || !dob.year) {
       this.setState({
-        errorMessage: "Please enter your date of birth to proceed",
+        errorMessage: this.errorMessageText.emptyField,
       });
       return;
     }
@@ -64,7 +72,7 @@ export class AuthPage extends React.Component<{}, any> {
     const validatedDate = validateDateOfBirth(dob);
     if (!validatedDate) {
       this.setState({
-        errorMessage: "Please input your date of birth in the correct format",
+        errorMessage: this.errorMessageText.wrongFormat,
       });
       return;
     }
@@ -72,7 +80,9 @@ export class AuthPage extends React.Component<{}, any> {
     const result = this.sendToBackend(validatedDate);
     this.setState({ backendResult: result });
     if (result === "timeout") {
-      this.setState({ errorMessage: "Maximum attempts reached" });
+      this.setState({
+        errorMessage: this.errorMessageText.maxAttemptsHintText,
+      });
     } else if (result === "incorrect") {
       this.setState({ errorMessage: "Please enter correct date of birth" });
     } else {
