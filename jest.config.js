@@ -5,13 +5,13 @@ module.exports = {
         "^.+\\.js$": "babel-jest",
         "^.+\\.mjs$": "babel-jest",
     },
-    moduleDirectories:["node_modules","uksa/src"],
+    moduleDirectories:["node_modules","ukhsa/src/app"],
     moduleNameMapper:{
-        "@controllers/(.*)": "<rootDir>/src/components/$1",
-        "@middleware/(.*)": "<rootDir>/src/middleware/$1",
-        "@models/(.*)": "<rootDir>/src/models/$1",
-        "@routes/(.*)": "<rootDir>/src/routes/$1",
-        "@util/(.*)": "<rootDir>/src/util/$1",
+        "@controllers/(.*)": "<rootDir>/src/app/components/$1",
+        "@middleware/(.*)": "<rootDir>/src/app/middleware/$1",
+        "@models/(.*)": "<rootDir>/src/app/models/$1",
+        "@routes/(.*)": "<rootDir>/src/app/routes/$1",
+        "@util/(.*)": "<rootDir>/src/app/util/$1",
 
     }
 }
