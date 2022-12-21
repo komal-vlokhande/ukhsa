@@ -1,5 +1,6 @@
 ## Available Scripts
 
+Install Node js version - 16.17.0
 In the project directory, you can run:
 
 ### `npm install`
@@ -9,7 +10,9 @@ TO Install all the dependancies.
 ### `npm start`
 
 Runs the app in the development mode.\
-Open [http://localhost:8080](http://localhost:8080) to view it in the browser.
+Open [http://localhost:8080](http://localhost:8080/auth/token)
+(http://localhost:8080/auth/76690f51a797b7c552043d00188deff3)
+to view it in the browser.
 
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
@@ -17,7 +20,6 @@ You will also see any lint errors in the console.
 ### `npm test`
 
 Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
 ### `npm run build`
 
