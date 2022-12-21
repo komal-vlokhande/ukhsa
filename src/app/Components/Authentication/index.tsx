@@ -26,7 +26,8 @@ class Authentication extends React.Component<any, any> {
   constructor(props) {
     var token = localStorage.getItem('token');
     if(token) {
-      window.location.href = 'http://localhost:8080/welcome'
+      const origin = window.location.protocol + "//" + window.location.hostname + (window.location.port ? ':' + window.location.port: ''); 
+      window.location.href = origin + '/welcome'
     }
     super(props);
     this.state = {
@@ -69,8 +70,8 @@ class Authentication extends React.Component<any, any> {
         this.setState({ errors : responseData[0].error.map( value => { return { children : value }})});
         this.setState( {errorMessage : { children : responseData[1].errorMessage }})
       } else {
-        window.location.href = this.props.authDetails.redirectURL;
-        localStorage.setItem('token', this.props.authDetails.authToken);
+        // window.location.href = this.props.authDetails.redirectURL;
+        // localStorage.setItem('token', this.props.authDetails.authToken);
       }  
     }
   };

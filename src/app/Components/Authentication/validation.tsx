@@ -24,14 +24,16 @@ export const validateDateOfBirth: (value?: {
 
 export const checkForNonNumericCharacters = ( value ) => {
   let regExp = /[a-zA-Z]/g
-  if( (value.year.replace(/\s+/g, '').match(/^\d+$/) && regExp.test(value.year)) &&
-      (value.month.replace(/\s+/g, '').match(/^\d+$/) && regExp.test(value.month)) &&
-      (value.day.replace(/\s+/g, '').match(/^\d+$/) && regExp.test(value.day))
-    )
+  const specialChars = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+  console.log(regExp.test(value.year) || (specialChars.test(value.year)))
+
+  if( regExp.test(value.year) || (specialChars.test(value.year)) ||
+      regExp.test(value.month) || (specialChars.test(value.month)) ||
+      regExp.test(value.day) || (specialChars.test(value.day)))
   {
-    return false;
-  } else {
     return true;
+  } else {
+    return false;
   }
 };
 

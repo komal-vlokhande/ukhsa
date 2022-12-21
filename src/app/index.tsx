@@ -18,7 +18,8 @@ function App() {
   const toggleTheme = (e: { target: { value: any } }) => {
     if( e.target.value === 'logout' ) {
       localStorage.removeItem('token');
-      window.location.href = 'http://localhost:8080/auth'
+      const origin = window.location.protocol + "//" + window.location.hostname + (window.location.port ? ':' + window.location.port: ''); 
+      window.location.href = origin +'/auth'
     } else {
       setTheme((curr) =>
         curr === "--theme-light" ? "--theme-dark" : "--theme-light"
