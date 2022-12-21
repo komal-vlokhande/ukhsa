@@ -1,15 +1,9 @@
 import React from "react";
 import { Provider } from "react-redux";
 import configureStore from "../../../store";
-import rootReducer from "../../reducers/rootReducer";
-import { getAuthenticationDetails } from "../../actions";
 import Authentication from ".";
-import mapDispatchToProps from ".";
-import mapStateToProps from ".";
-// import store from "."
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import App from "../../";
 
 const store = configureStore();
 describe("Authentication component", () => {
