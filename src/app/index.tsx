@@ -16,9 +16,15 @@ function App() {
   const [theme, setTheme] = useState("--theme-light");
 
   const toggleTheme = (e: { target: { value: any } }) => {
-    setTheme((curr) =>
-      curr === "--theme-light" ? "--theme-dark" : "--theme-light"
-    );
+    if( e.target.value === 'logout' ) {
+      localStorage.removeItem('token');
+      const origin = window.location.protocol + "//" + window.location.hostname + (window.location.port ? ':' + window.location.port: ''); 
+      window.location.href = origin +'/auth'
+    } else {
+      setTheme((curr) =>
+        curr === "--theme-light" ? "--theme-dark" : "--theme-light"
+      );
+    }
   };
 
   return (
@@ -40,6 +46,10 @@ function App() {
               {
                 children: "Dark Theme",
                 value: "--theme-dark",
+              },
+              {
+                children: "Logout",
+                value: "logout",
               },
             ]}
             name="select-1"

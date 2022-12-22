@@ -26,7 +26,8 @@ class Authentication extends React.Component<any, any> {
   constructor(props) {
     var token = localStorage.getItem('token');
     if(token) {
-      window.location.href = 'http://localhost:8080/welcome'
+      const origin = window.location.protocol + "//" + window.location.hostname + (window.location.port ? ':' + window.location.port: ''); 
+      window.location.href = origin + '/welcome'
     }
     super(props);
     this.state = {
@@ -64,9 +65,10 @@ class Authentication extends React.Component<any, any> {
       const { year, month, day} = this.state.dob;
       const DOB =  moment(`${day}-${month}-${year}`, 'DD-MM-YYYY').format("DDMMYYYY");
       await this.props.getAuthenticationDetails({dob:DOB, urlToken: this.state.access_token[2]})
+      console.log(this.props.authDetails)
       let responseData = ValidateBackendResponse(this.props.authDetails);
       if(responseData.length > 0){
-        this.setState({ errors : responseData[0].error.map( value => { return { children : value }})});
+        this.setState({ errors : responseData[0].error.map( value => { return { children : value ,href : '#'}})});
         this.setState( {errorMessage : { children : responseData[1].errorMessage }})
       } else {
         window.location.href = this.props.authDetails.redirectURL;
