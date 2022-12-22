@@ -38,7 +38,8 @@ class Authentication extends React.Component<any, any> {
       errors: [],
       errorMessage: '',
       errorList : [],
-      access_token: window.location.pathname.split('/')
+      access_token: window.location.pathname.split('/'),
+      redirect: false
     };
   }
 
@@ -65,18 +66,27 @@ class Authentication extends React.Component<any, any> {
       const { year, month, day} = this.state.dob;
       const DOB =  moment(`${day}-${month}-${year}`, 'DD-MM-YYYY').format("DDMMYYYY");
       await this.props.getAuthenticationDetails({dob:DOB, urlToken: this.state.access_token[2]})
-      let responseData = ValidateBackendResponse(this.props.authDetails);
-      if(responseData.length > 0){
-        this.setState({ errors : responseData[0].error.map( value => { return { children : value }})});
+      let responseData;
+      if ( this.props.error === 'Something went wrong' ) {
+        responseData = await ValidateBackendResponse({error : this.props.error});
+      } else {
+        responseData = await ValidateBackendResponse(this.props.authDetails);
+      }
+      if ( responseData.length > 0 ) {
+        this.setState({ errors : responseData[0].error.map( value => { return { children : value, href : '#' }})});
         this.setState( {errorMessage : { children : responseData[1].errorMessage }})
       } else {
-        window.location.href = this.props.authDetails.redirectURL;
+        this.setState({ redirect: true });
         localStorage.setItem('token', this.props.authDetails.authToken);
       }  
     }
   };
 
   render () {
+    const { redirect } = this.state;
+    if (redirect) {
+      return <Navigate to='/welcome'/>;
+    }
     return(
       <>
       {this.state.errors && !!Object.keys(this.state.errors).length && (

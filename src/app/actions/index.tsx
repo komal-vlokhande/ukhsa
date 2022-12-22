@@ -16,14 +16,18 @@ export const authenticationFailed = (error: any) =>{
 }
 
 export const getAuthenticationDetails = ( requestData: {} ) => {
-    return (dispatch) => {
-        axios.post('https://api.dev.rtts-sandbox.test-and-trace.nhs.uk/authentication', requestData,{
+    return async (dispatch) => {
+        await axios.post('https://api.dev.rtts-sandbox.test-and-trace.nhs.uk/authentication', requestData,{
             headers: {
             'Content-Type': 'application/json',
             }
           })
         .then(response => {
-            dispatch(authenticationSucess(response.data.responseBody));
+            if(response.data.errorType ){
+                dispatch(authenticationFailed('Something went wrong'));
+            } else if (response.data.responseBody){
+                dispatch(authenticationSucess(response.data.responseBody));
+            }
         })
         .catch(error => {
             dispatch(authenticationFailed(error));
