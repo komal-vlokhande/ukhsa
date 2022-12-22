@@ -65,9 +65,10 @@ class Authentication extends React.Component<any, any> {
       const { year, month, day} = this.state.dob;
       const DOB =  moment(`${day}-${month}-${year}`, 'DD-MM-YYYY').format("DDMMYYYY");
       await this.props.getAuthenticationDetails({dob:DOB, urlToken: this.state.access_token[2]})
+      console.log(this.props.authDetails)
       let responseData = ValidateBackendResponse(this.props.authDetails);
       if(responseData.length > 0){
-        this.setState({ errors : responseData[0].error.map( value => { return { children : value }})});
+        this.setState({ errors : responseData[0].error.map( value => { return { children : value ,href : '#'}})});
         this.setState( {errorMessage : { children : responseData[1].errorMessage }})
       } else {
         // window.location.href = this.props.authDetails.redirectURL;

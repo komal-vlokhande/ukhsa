@@ -41,7 +41,7 @@ export const ValidateBackendResponse = ( response ) => {
   if ( response.failureCode === 'INCORRECT' ) {
     return [{ error: ['Your date of birth doesn’t match our records'] }, { errorMessage : 'Please enter your correct date of birth'}]
   } else if ( response.failureCode === 'TIMEOUT' ) {
-    return [{error: [ 'You have reached the maximum number of attemps', 'Please try again'] }, { errorMessage : 'Maximum attempts reached'}]
+    return [{error: [ 'You have reached the maximum number of attemps', 'Please try again in 15 minutes'] }, { errorMessage : 'Maximum attempts reached'}]
   } else {
     return [];
   }

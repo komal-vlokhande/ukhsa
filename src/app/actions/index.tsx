@@ -15,9 +15,9 @@ export const authenticationFailed = (error: any) =>{
     }
 }
 
-export const getAuthenticationDetails = ( requestData: {} ) => {
-    return (dispatch) => {
-        axios.post('https://api.dev.rtts-sandbox.test-and-trace.nhs.uk/authentication', requestData,{
+export const getAuthenticationDetails =  ( requestData: {} ) => {
+    return async (dispatch) => {
+      await axios.post('https://api.dev.rtts-sandbox.test-and-trace.nhs.uk/authentication', requestData,{
             headers: {
             'Content-Type': 'application/json',
             }
