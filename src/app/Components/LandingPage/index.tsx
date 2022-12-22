@@ -4,7 +4,12 @@ export class LandingPage extends React.Component {
   constructor(props) {
     var token = localStorage.getItem("token");
     if (!token) {
-      window.location.href = "http://localhost:8080/auth";
+      const origin =
+        window.location.protocol +
+        "//" +
+        window.location.hostname +
+        (window.location.port ? ":" + window.location.port : "");
+      window.location.href = origin + "/auth";
     }
     super(props);
   }
