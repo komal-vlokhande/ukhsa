@@ -27,7 +27,12 @@ class Authentication extends React.Component<any, any> {
   constructor(props) {
     var token = localStorage.getItem("token");
     if (token) {
-      window.location.href = "http://localhost:8080/welcome";
+      const origin =
+        window.location.protocol +
+        "//" +
+        window.location.hostname +
+        (window.location.port ? ":" + window.location.port : "");
+      window.location.href = origin + "/welcome";
     }
     super(props);
     this.state = {

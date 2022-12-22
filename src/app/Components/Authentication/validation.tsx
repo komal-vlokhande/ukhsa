@@ -6,14 +6,13 @@ export const validateDateOfBirth: (value?: {
 }) => string | undefined = (value) => {
   let errors = [];
   if (value && value.year && value.month && value.day) {
-
-    checkForNonNumericCharacters(value);
+    
     const userDOB =  moment(`${value.month}-${value.day}-${value.year}`, "MM-DD-YYYY");
     const DOBDate = userDOB.toDate();
-
+    
     if( DOBDate > new Date() ){
       return 'Date of birth must be in the past'
-    } else if ( userDOB.year() > 1900 && userDOB.isValid()) {
+    } else if ( userDOB.year() > 1900 && userDOB.isValid() && !checkForNonNumericCharacters(value)) {
       return '';
     }else {
       return 'Please input your date of birth in the correct format'
@@ -24,12 +23,17 @@ export const validateDateOfBirth: (value?: {
 };
 
 export const checkForNonNumericCharacters = ( value ) => {
-  if( value.year.replace(/\s+/g, '').match(/[a-zA-Z]\d+$/) && 
-      value.month.replace(/\s+/g, '').match(/^\d+$/) &&
-      value.day.replace(/\s+/g, '').match(/^\d+$/)
-    )
+  let regExp = /[a-zA-Z]/g
+  const specialChars = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+  console.log(regExp.test(value.year) || (specialChars.test(value.year)))
+
+  if( regExp.test(value.year) || (specialChars.test(value.year)) ||
+      regExp.test(value.month) || (specialChars.test(value.month)) ||
+      regExp.test(value.day) || (specialChars.test(value.day)))
   {
-    return 'Please input your date of birth in the correct format';
+    return true;
+  } else {
+    return false;
   }
 };
 
