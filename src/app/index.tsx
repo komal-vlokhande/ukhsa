@@ -12,6 +12,10 @@ function NoMatch() {
   return <div>404 Not found</div>;
 }
 
+function Homepage() {
+  return <div>Authenticator Home Plain Page..!!!</div>;
+}
+
 function App() {
   const [theme, setTheme] = useState("--theme-light");
 
@@ -61,6 +65,7 @@ function App() {
           <Routes>
             <Route path="/auth/:token" element={<Authentication />} />
             <Route path="/welcome" element={<LandingPage />} />
+            <Route path="/" element={<Homepage />} />
             <Route path="*" element={<NoMatch />} />
           </Routes>
         </div>
