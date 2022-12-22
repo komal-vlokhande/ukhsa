@@ -70,8 +70,8 @@ class Authentication extends React.Component<any, any> {
         this.setState({ errors : responseData[0].error.map( value => { return { children : value }})});
         this.setState( {errorMessage : { children : responseData[1].errorMessage }})
       } else {
-        // window.location.href = this.props.authDetails.redirectURL;
-        // localStorage.setItem('token', this.props.authDetails.authToken);
+        window.location.href = this.props.authDetails.redirectURL;
+        localStorage.setItem('token', this.props.authDetails.authToken);
       }  
     }
   };
