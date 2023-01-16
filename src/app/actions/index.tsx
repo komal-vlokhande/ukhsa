@@ -17,7 +17,7 @@ export const authenticationFailed = (error: any) =>{
 
 export const getAuthenticationDetails = ( requestData: {} ) => {
     return async (dispatch) => {
-        await axios.post('https://api.dev.rtts-sandbox.test-and-trace.nhs.uk/authentication', requestData,{
+        await axios.post(`${process.env.API_ENDPOINT}/authentication`, requestData,{
             headers: {
             'Content-Type': 'application/json',
             }
@@ -25,8 +25,8 @@ export const getAuthenticationDetails = ( requestData: {} ) => {
         .then(response => {
             if(response.data.errorType ){
                 dispatch(authenticationFailed('Something went wrong'));
-            } else if (response.data.responseBody){
-                dispatch(authenticationSucess(response.data.responseBody));
+            } else if (response.data.body){
+                dispatch(authenticationSucess(response.data.body));
             }
         })
         .catch(error => {
