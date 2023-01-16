@@ -1,10 +1,11 @@
+import React, { createContext, useState } from "react";
+import { Route, Routes } from "react-router-dom";
+import { Template, Header, Footer, DateInput, Select } from "govuk-react-jsx";
+import "../styles.scss";
 
-import React, {createContext, useState} from "react";
-import { Route, Routes } from "react-router-dom"; 
-import { Template, Header, Footer, DateInput ,Select } from 'govuk-react-jsx';
-import '../styles.scss';
-import  Authentication  from './Components/Authentication'
-import { LandingPage } from './Components/LandingPage'
+import Authentication from "./Components/Authentication";
+import { CustomHeader } from "./Components/Header";
+import { LandingPage } from "./Components/LandingPage";
 
 export const ThemeContext = createContext(null);
 
@@ -20,10 +21,14 @@ function App() {
   const [theme, setTheme] = useState("--theme-light");
 
   const toggleTheme = (e: { target: { value: any } }) => {
-    if( e.target.value === 'logout' ) {
-      localStorage.removeItem('token');
-      const origin = window.location.protocol + "//" + window.location.hostname + (window.location.port ? ':' + window.location.port: ''); 
-      window.location.href = origin +'/auth'
+    if (e.target.value === "logout") {
+      localStorage.removeItem("token");
+      const origin =
+        window.location.protocol +
+        "//" +
+        window.location.hostname +
+        (window.location.port ? ":" + window.location.port : "");
+      window.location.href = origin + "/auth";
     } else {
       setTheme((curr) =>
         curr === "--theme-light" ? "--theme-dark" : "--theme-light"
@@ -34,11 +39,13 @@ function App() {
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
       <div className="App" id={theme}>
-        <Template
+        <CustomHeader />
+        {/* <Template
+          header={<CustomHeader />}
           menuButtonLabel="Theme"
           containerClassName="govuk-header__container--full-width"
           navigationClassName="govuk-header__navigation--end"
-        >
+        > */}
         <div className="switch">
           <Select
             id="select-1"
@@ -69,7 +76,7 @@ function App() {
             <Route path="*" element={<NoMatch />} />
           </Routes>
         </div>
-        </Template>
+        {/* </Template> */}
       </div>
     </ThemeContext.Provider>
   );
