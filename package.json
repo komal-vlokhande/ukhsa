@@ -33,8 +33,9 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack-dev-server --open --mode development --hot",
-    "build": "webpack --mode production",
+    "start": "webpack-dev-server --open --hot",
+    "build": "webpack",
+    "build:dev": "webpack --env file=development",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
