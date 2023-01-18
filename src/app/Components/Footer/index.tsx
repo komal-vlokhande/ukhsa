@@ -44,5 +44,4 @@ export class CustomFooter extends React.Component {
       />
     );
   }
-  2;
 }
