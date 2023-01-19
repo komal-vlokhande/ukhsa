@@ -46,7 +46,7 @@ describe("CustomFooter", () => {
   test("renders correct link text", () => {
     const links = screen.getAllByRole("link");
     const linkText = links.map((link) => link.textContent);
-    expect(linkText).toEqual([expectedLinkText]);
+    expect(linkText).toEqual(expectedLinkText);
   });
   test("renders licence svg logo", () => {
     const { container } = render(<CustomFooter />);
