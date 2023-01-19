@@ -10,10 +10,6 @@ const links = {
   "Rhestr o Wasanaethau Cymraeg": "https://www.gov.uk/cymraeg",
   "Government Digital Service":
     "https://www.gov.uk/government/organisations/government-digital-service",
-  "Open Government Licence v3.0":
-    "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
-  "© Crown copyright":
-    "https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/",
 };
 const mapLinks = (links) => {
   return Object.entries(links).map(([children, href]) => {
